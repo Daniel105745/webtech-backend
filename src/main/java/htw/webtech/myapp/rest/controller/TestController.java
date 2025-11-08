@@ -1,6 +1,6 @@
 package htw.webtech.myapp.rest.controller;
 
-import htw.webtech.myapp.persistence.*;
+
 import htw.webtech.myapp.persistence.entity.TestEntity;
 import htw.webtech.myapp.persistence.repository.TestRepository;
 import org.springframework.web.bind.annotation.*;
