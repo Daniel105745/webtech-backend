@@ -40,6 +40,4 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 
-    // Tests werden auf Render nicht ausgeführt (verhindert Build-Fehler)
-    onlyIf { !System.getenv().containsKey("RENDER") }
 }

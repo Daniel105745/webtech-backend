@@ -41,7 +41,7 @@
 </td>
 <td>
 <div class="infoBox" id="duration">
-<div class="counter">0.003s</div>
+<div class="counter">0.002s</div>
 <p>duration</p>
 </div>
 </td>
@@ -79,7 +79,7 @@
 <a name="contextLoads()"></a>
 <h3 class="failures">contextLoads()</h3>
 <span class="code">
-<pre>java.lang.IllegalStateException: Failed to load ApplicationContext for [WebMergedContextConfiguration@531ec978 testClass = htw.webtech.myapp.MyappApplicationTests, locations = [], classes = [htw.webtech.myapp.MyappApplication], contextInitializerClasses = [], activeProfiles = [], propertySourceDescriptors = [], propertySourceProperties = [&quot;org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true&quot;], contextCustomizers = [org.springframework.boot.test.autoconfigure.OnFailureConditionReportContextCustomizerFactory$OnFailureConditionReportContextCustomizer@3da05287, org.springframework.boot.test.autoconfigure.actuate.observability.ObservabilityContextCustomizerFactory$DisableObservabilityContextCustomizer@1f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizer@7642df8f, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@3ed242a4, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@73a2e526, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@55dfebeb, org.springframework.boot.test.web.reactor.netty.DisableReactorResourceFactoryGlobalResourcesContextCustomizerFactory$DisableReactorResourceFactoryGlobalResourcesContextCustomizerCustomizer@75cd8043, org.springframework.test.context.support.DynamicPropertiesContextCustomizer@0, org.springframework.boot.test.context.SpringBootTestAnnotation@3fb7fb11], resourceBasePath = &quot;src/main/webapp&quot;, contextLoader = org.springframework.boot.test.context.SpringBootContextLoader, parent = null]
+<pre>java.lang.IllegalStateException: Failed to load ApplicationContext for [WebMergedContextConfiguration@63bfdbcb testClass = htw.webtech.myapp.MyappApplicationTests, locations = [], classes = [htw.webtech.myapp.MyappApplication], contextInitializerClasses = [], activeProfiles = [], propertySourceDescriptors = [], propertySourceProperties = [&quot;org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true&quot;], contextCustomizers = [org.springframework.boot.test.autoconfigure.OnFailureConditionReportContextCustomizerFactory$OnFailureConditionReportContextCustomizer@3700ec9c, org.springframework.boot.test.autoconfigure.actuate.observability.ObservabilityContextCustomizerFactory$DisableObservabilityContextCustomizer@1f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizer@615091b8, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@43b6123e, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@3300f4fd, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@68ead359, org.springframework.boot.test.web.reactor.netty.DisableReactorResourceFactoryGlobalResourcesContextCustomizerFactory$DisableReactorResourceFactoryGlobalResourcesContextCustomizerCustomizer@fcb4004, org.springframework.test.context.support.DynamicPropertiesContextCustomizer@0, org.springframework.boot.test.context.SpringBootTestAnnotation@c5b4f5c2], resourceBasePath = &quot;src/main/webapp&quot;, contextLoader = org.springframework.boot.test.context.SpringBootContextLoader, parent = null]
 	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:180)
 	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:130)
 	at org.springframework.test.context.web.ServletTestExecutionListener.setUpRequestContextIfNecessary(ServletTestExecutionListener.java:200)
@@ -168,7 +168,7 @@ Caused by: java.lang.RuntimeException: Driver org.postgresql.Driver claims to no
 </thead>
 <tr>
 <td class="failures">contextLoads()</td>
-<td class="failures">0.003s</td>
+<td class="failures">0.002s</td>
 <td class="failures">failed</td>
 </tr>
 </table>
@@ -176,8 +176,8 @@ Caused by: java.lang.RuntimeException: Driver org.postgresql.Driver claims to no
 <div class="tab">
 <h2>Standard output</h2>
 <span class="code">
-<pre>00:04:10.752 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [htw.webtech.myapp.MyappApplicationTests]: MyappApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
-00:04:10.789 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration htw.webtech.myapp.MyappApplication for test class htw.webtech.myapp.MyappApplicationTests
+<pre>00:22:11.078 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [htw.webtech.myapp.MyappApplicationTests]: MyappApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+00:22:11.116 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration htw.webtech.myapp.MyappApplication for test class htw.webtech.myapp.MyappApplicationTests
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -188,16 +188,16 @@ Caused by: java.lang.RuntimeException: Driver org.postgresql.Driver claims to no
 
  :: Spring Boot ::                (v3.5.6)
 
-2025-11-09T00:04:10.920+01:00  INFO 16137 --- [myapp] [    Test worker] h.webtech.myapp.MyappApplicationTests    : Starting MyappApplicationTests using Java 21.0.1 with PID 16137 (started by danielliss in /Users/danielliss/Documents/webtech-backend)
-2025-11-09T00:04:10.920+01:00  INFO 16137 --- [myapp] [    Test worker] h.webtech.myapp.MyappApplicationTests    : No active profile set, falling back to 1 default profile: &quot;default&quot;
-2025-11-09T00:04:11.117+01:00  INFO 16137 --- [myapp] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2025-11-09T00:04:11.134+01:00  INFO 16137 --- [myapp] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 13 ms. Found 1 JPA repository interface.
-2025-11-09T00:04:11.246+01:00  INFO 16137 --- [myapp] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
-2025-11-09T00:04:11.248+01:00  WARN 16137 --- [myapp] [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to instantiate [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean]: Factory method 'entityManagerFactory' threw exception with message: Driver org.postgresql.Driver claims to not accept jdbcUrl, ${DB_URL}
-2025-11-09T00:04:11.266+01:00  INFO 16137 --- [myapp] [    Test worker] .s.b.a.l.ConditionEvaluationReportLogger : 
+2025-11-09T00:22:11.238+01:00  INFO 16651 --- [myapp] [    Test worker] h.webtech.myapp.MyappApplicationTests    : Starting MyappApplicationTests using Java 21.0.1 with PID 16651 (started by danielliss in /Users/danielliss/Documents/webtech-backend)
+2025-11-09T00:22:11.238+01:00  INFO 16651 --- [myapp] [    Test worker] h.webtech.myapp.MyappApplicationTests    : No active profile set, falling back to 1 default profile: &quot;default&quot;
+2025-11-09T00:22:11.430+01:00  INFO 16651 --- [myapp] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-11-09T00:22:11.445+01:00  INFO 16651 --- [myapp] [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 11 ms. Found 1 JPA repository interface.
+2025-11-09T00:22:11.551+01:00  INFO 16651 --- [myapp] [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-11-09T00:22:11.553+01:00  WARN 16651 --- [myapp] [    Test worker] o.s.w.c.s.GenericWebApplicationContext   : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to instantiate [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean]: Factory method 'entityManagerFactory' threw exception with message: Driver org.postgresql.Driver claims to not accept jdbcUrl, ${DB_URL}
+2025-11-09T00:22:11.574+01:00  INFO 16651 --- [myapp] [    Test worker] .s.b.a.l.ConditionEvaluationReportLogger : 
 
 Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
-2025-11-09T00:04:11.272+01:00 ERROR 16137 --- [myapp] [    Test worker] o.s.boot.SpringApplication               : Application run failed
+2025-11-09T00:22:11.580+01:00 ERROR 16651 --- [myapp] [    Test worker] o.s.boot.SpringApplication               : Application run failed
 
 org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Failed to instantiate [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean]: Factory method 'entityManagerFactory' threw exception with message: Driver org.postgresql.Driver claims to not accept jdbcUrl, ${DB_URL}
 	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:657) ~[spring-beans-6.2.11.jar:6.2.11]
@@ -343,9 +343,9 @@ Caused by: java.lang.RuntimeException: Driver org.postgresql.Driver claims to no
 	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.lambda$instantiate$0(SimpleInstantiationStrategy.java:172) ~[spring-beans-6.2.11.jar:6.2.11]
 	... 117 common frames omitted
 
-2025-11-09T00:04:11.275+01:00  WARN 16137 --- [myapp] [    Test worker] o.s.test.context.TestContextManager      : Caught exception while allowing TestExecutionListener [org.springframework.test.context.web.ServletTestExecutionListener] to prepare test instance [htw.webtech.myapp.MyappApplicationTests@93501be]
+2025-11-09T00:22:11.587+01:00  WARN 16651 --- [myapp] [    Test worker] o.s.test.context.TestContextManager      : Caught exception while allowing TestExecutionListener [org.springframework.test.context.web.ServletTestExecutionListener] to prepare test instance [htw.webtech.myapp.MyappApplicationTests@7af0affa]
 
-java.lang.IllegalStateException: Failed to load ApplicationContext for [WebMergedContextConfiguration@531ec978 testClass = htw.webtech.myapp.MyappApplicationTests, locations = [], classes = [htw.webtech.myapp.MyappApplication], contextInitializerClasses = [], activeProfiles = [], propertySourceDescriptors = [], propertySourceProperties = [&quot;org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true&quot;], contextCustomizers = [org.springframework.boot.test.autoconfigure.OnFailureConditionReportContextCustomizerFactory$OnFailureConditionReportContextCustomizer@3da05287, org.springframework.boot.test.autoconfigure.actuate.observability.ObservabilityContextCustomizerFactory$DisableObservabilityContextCustomizer@1f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizer@7642df8f, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@3ed242a4, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@73a2e526, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@55dfebeb, org.springframework.boot.test.web.reactor.netty.DisableReactorResourceFactoryGlobalResourcesContextCustomizerFactory$DisableReactorResourceFactoryGlobalResourcesContextCustomizerCustomizer@75cd8043, org.springframework.test.context.support.DynamicPropertiesContextCustomizer@0, org.springframework.boot.test.context.SpringBootTestAnnotation@3fb7fb11], resourceBasePath = &quot;src/main/webapp&quot;, contextLoader = org.springframework.boot.test.context.SpringBootContextLoader, parent = null]
+java.lang.IllegalStateException: Failed to load ApplicationContext for [WebMergedContextConfiguration@63bfdbcb testClass = htw.webtech.myapp.MyappApplicationTests, locations = [], classes = [htw.webtech.myapp.MyappApplication], contextInitializerClasses = [], activeProfiles = [], propertySourceDescriptors = [], propertySourceProperties = [&quot;org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true&quot;], contextCustomizers = [org.springframework.boot.test.autoconfigure.OnFailureConditionReportContextCustomizerFactory$OnFailureConditionReportContextCustomizer@3700ec9c, org.springframework.boot.test.autoconfigure.actuate.observability.ObservabilityContextCustomizerFactory$DisableObservabilityContextCustomizer@1f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizer@615091b8, org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@43b6123e, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@3300f4fd, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@68ead359, org.springframework.boot.test.web.reactor.netty.DisableReactorResourceFactoryGlobalResourcesContextCustomizerFactory$DisableReactorResourceFactoryGlobalResourcesContextCustomizerCustomizer@fcb4004, org.springframework.test.context.support.DynamicPropertiesContextCustomizer@0, org.springframework.boot.test.context.SpringBootTestAnnotation@c5b4f5c2], resourceBasePath = &quot;src/main/webapp&quot;, contextLoader = org.springframework.boot.test.context.SpringBootContextLoader, parent = null]
 	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:180) ~[spring-test-6.2.11.jar:6.2.11]
 	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:130) ~[spring-test-6.2.11.jar:6.2.11]
 	at org.springframework.test.context.web.ServletTestExecutionListener.setUpRequestContextIfNecessary(ServletTestExecutionListener.java:200) ~[spring-test-6.2.11.jar:6.2.11]
@@ -1662,7 +1662,7 @@ Unconditional classes:
 <input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
 </label>
 </div>Generated by 
-<a href="https://www.gradle.org">Gradle 8.14.3</a> at 09.11.2025, 00:04:11</p>
+<a href="https://www.gradle.org">Gradle 8.14.3</a> at 09.11.2025, 00:22:12</p>
 </div>
 </div>
 </body>
