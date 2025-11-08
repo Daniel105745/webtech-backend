@@ -2,5 +2,5 @@ package htw.webtech.myapp.rest.model;
 
 
 
-public record TrainingPlanDTO( String name, String goal, int durationWeeks) {
+public record TrainingPlanDTO(int id,String name,String dauer,String intensitaet, String zielmuskeln) {
 }

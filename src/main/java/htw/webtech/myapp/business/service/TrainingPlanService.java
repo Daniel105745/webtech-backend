@@ -4,14 +4,15 @@ import htw.webtech.myapp.rest.model.TrainingPlanDTO;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
+
 @Service
 public class TrainingPlanService {
 
     public List<TrainingPlanDTO> getAllTrainingPlans() {
         return List.of(
-                new TrainingPlanDTO("Anfänger Plan", "Grundfitness aufbauen", 8),
-                new TrainingPlanDTO("Muskelaufbau Plan", "Masse aufbauen", 12),
-                new TrainingPlanDTO("Ausdauer Plan", "Kondition verbessern", 10)
+                new TrainingPlanDTO(1, "Anfänger Plan", "4 Wochen", "Leicht", "Ganzkörper"),
+                new TrainingPlanDTO(2, "Muskelaufbau Plan", "8 Wochen", "Mittel", "Oberkörper, Arme"),
+                new TrainingPlanDTO(3, "Fettverbrennung Plan", "6 Wochen", "Hoch", "Beine, Core")
         );
     }
 }

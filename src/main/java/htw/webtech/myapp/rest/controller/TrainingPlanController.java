@@ -20,13 +20,8 @@ public class TrainingPlanController {
     }
 
     @GetMapping("/plans")
-    public ResponseEntity<List<TrainingPlanDTO>> getTrainingPlans() {
-        return ResponseEntity.ok(trainingPlanService.getAllTrainingPlans());
+    public List<TrainingPlanDTO> getAllPlans() {
+        return trainingPlanService.getAllTrainingPlans();
     }
 
-    // optionaler Test-Endpoint, um zu prüfen, ob dein Backend läuft
-    @GetMapping("/")
-    public String home() {
-        return "Backend läuft auf Render ✅";
-    }
 }
