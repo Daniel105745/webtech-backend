@@ -8,7 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "https://webtech-frontend-fe2m.onrender.com") // erlaubt NUR dein Frontend
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "https://webtech-frontend-fe2m.onrender.com"
+})
+// erlaubt NUR dein Frontend
 public class TrainingPlanController {
 
     private final TrainingPlanService trainingPlanService;
