@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="htw.webtech.myapp.ThingControllerTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-11-08T23:22:12.248Z" hostname="f323362e-7f69-4b0f-9b77-581de087fd35.fritz.box" time="0.058">
+  <properties/>
+  <testcase name="testGetRoute()" classname="htw.webtech.myapp.ThingControllerTest" time="0.058"/>
+  <system-out><![CDATA[2025-11-09T00:22:11.598+01:00  INFO 16651 --- [myapp] [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [htw.webtech.myapp.ThingControllerTest]: ThingControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2025-11-09T00:22:11.603+01:00  INFO 16651 --- [myapp] [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration htw.webtech.myapp.MyappApplication for test class htw.webtech.myapp.ThingControllerTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.6)
+
+2025-11-09T00:22:11.614+01:00  INFO 16651 --- [myapp] [    Test worker] htw.webtech.myapp.ThingControllerTest    : Starting ThingControllerTest using Java 21.0.1 with PID 16651 (started by danielliss in /Users/danielliss/Documents/webtech-backend)
+2025-11-09T00:22:11.614+01:00  INFO 16651 --- [myapp] [    Test worker] htw.webtech.myapp.ThingControllerTest    : No active profile set, falling back to 1 default profile: "default"
+2025-11-09T00:22:12.233+01:00  INFO 16651 --- [myapp] [    Test worker] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2025-11-09T00:22:12.233+01:00  INFO 16651 --- [myapp] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2025-11-09T00:22:12.234+01:00  INFO 16651 --- [myapp] [    Test worker] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 0 ms
+2025-11-09T00:22:12.245+01:00  INFO 16651 --- [myapp] [    Test worker] htw.webtech.myapp.ThingControllerTest    : Started ThingControllerTest in 0.639 seconds (process running for 1.474)
+2025-11-09T00:22:12.280+01:00  INFO 16651 --- [myapp] [    Test worker] htw.webtech.myapp.ThingController        : GET request on route things with 42
+]]></system-out>
+  <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (/Users/danielliss/.gradle/caches/modules-2/files-2.1/net.bytebuddy/byte-buddy-agent/1.17.7/fbf3d6d649ed37fc9e9c59480a05be0a26e3c2da/byte-buddy-agent-1.17.7.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+</testsuite>
