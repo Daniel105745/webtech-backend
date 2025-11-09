@@ -3,9 +3,7 @@ package htw.webtech.myapp.rest.controller;
 import htw.webtech.myapp.business.service.TrainingPlanService;
 import htw.webtech.myapp.rest.model.TrainingPlanDTO;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +21,10 @@ public class TrainingPlanController {
     public List<TrainingPlanDTO> getAllPlans() {
         return trainingPlanService.getAllTrainingPlans();
     }
+    @PostMapping("/plans")
+    public TrainingPlanDTO create(@RequestBody TrainingPlanDTO dto) {
+        return trainingPlanService.create(dto);
+    }
+
 
 }
