@@ -29,6 +29,26 @@ public class TrainingPlanController {
     public TrainingPlanDTO create(@RequestBody TrainingPlanDTO dto) {
         return trainingPlanService.create(dto);
     }
+    @DeleteMapping("/plans/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        boolean deleted = trainingPlanService.delete(id);
+        return deleted ? ResponseEntity.noContent().build()
+                : ResponseEntity.notFound().build();
+    }
+    @PutMapping("/plans/{id}")
+    public ResponseEntity<TrainingPlanDTO> updatePlan(@PathVariable Long id, @RequestBody TrainingPlanDTO dto) {
+        TrainingPlanDTO updated = trainingPlanService.update(id, dto);
+        return updated != null ? ResponseEntity.ok(updated) : ResponseEntity.notFound().build();
+    }
+    @GetMapping("/plans/{id}")
+    public ResponseEntity<TrainingPlanDTO> getPlanById(@PathVariable Long id) {
+        TrainingPlanDTO plan = trainingPlanService.getById(id);
+        return plan != null
+                ? ResponseEntity.ok(plan)
+                : ResponseEntity.notFound().build();
+    }
+
+
 
 
 }

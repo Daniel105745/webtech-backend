@@ -36,4 +36,43 @@ public class TrainingPlanService {
         repository.save(entity);
         return dto;
     }
+    public boolean delete(Long id) {
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+    public TrainingPlanDTO update(Long id, TrainingPlanDTO dto) {
+        return repository.findById(id)
+                .map(entity -> {
+                    entity.setName(dto.name());
+                    entity.setDauer(dto.dauer());
+                    entity.setIntensitaet(dto.intensitaet());
+                    entity.setZielmuskeln(dto.zielmuskeln());
+                    repository.save(entity);
+                    return new TrainingPlanDTO(
+                            entity.getId().intValue(),
+                            entity.getName(),
+                            entity.getDauer(),
+                            entity.getIntensitaet(),
+                            entity.getZielmuskeln()
+                    );
+                })
+                .orElse(null);
+    }
+    public TrainingPlanDTO getById(long id) {
+        return repository.findById(id)
+                .map(entity -> new TrainingPlanDTO(
+                        entity.getId().intValue(),
+                        entity.getName(),
+                        entity.getDauer(),
+                        entity.getIntensitaet(),
+                        entity.getZielmuskeln()
+                ))
+                .orElse(null);
+    }
+
+
+
 }
