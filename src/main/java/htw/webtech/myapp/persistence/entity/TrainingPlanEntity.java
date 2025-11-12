@@ -14,7 +14,7 @@ public class TrainingPlanEntity {
     private String name;
     private String dauer;
     private String intensitaet;
-    private String zielmuskeln;
+    private String trainingsziel;
 
     @OneToMany(mappedBy = "trainingPlan", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
@@ -22,11 +22,11 @@ public class TrainingPlanEntity {
 
     public TrainingPlanEntity() {}
 
-    public TrainingPlanEntity(String name, String dauer, String intensitaet, String zielmuskeln) {
+    public TrainingPlanEntity(String name, String dauer, String intensitaet, String trainingsziel) {
         this.name = name;
         this.dauer = dauer;
         this.intensitaet = intensitaet;
-        this.zielmuskeln = zielmuskeln;
+        this.trainingsziel = trainingsziel;
     }
 
     public Long getId() { return id; }
@@ -41,8 +41,8 @@ public class TrainingPlanEntity {
     public String getIntensitaet() { return intensitaet; }
     public void setIntensitaet(String intensitaet) { this.intensitaet = intensitaet; }
 
-    public String getZielmuskeln() { return zielmuskeln; }
-    public void setZielmuskeln(String zielmuskeln) { this.zielmuskeln = zielmuskeln; }
+    public String getTrainingsziel() { return trainingsziel; }
+    public void setTrainingsziel(String zielmuskeln) { this.trainingsziel = zielmuskeln; }
 
     public List<WorkoutEntity> getWorkouts() { return workouts; }
     public void setWorkouts(List<WorkoutEntity> workouts) { this.workouts = workouts; }

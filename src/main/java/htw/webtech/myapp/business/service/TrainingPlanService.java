@@ -22,7 +22,7 @@ public class TrainingPlanService {
                         entity.getName(),
                         entity.getDauer(),
                         entity.getIntensitaet(),
-                        entity.getZielmuskeln()
+                        entity.getTrainingsziel()
                 ))
                 .toList();
     }
@@ -32,10 +32,21 @@ public class TrainingPlanService {
         entity.setName(dto.name());
         entity.setDauer(dto.dauer());
         entity.setIntensitaet(dto.intensitaet());
-        entity.setZielmuskeln(dto.zielmuskeln());
-        repository.save(entity);
-        return dto;
+        entity.setTrainingsziel(dto.trainingsziel());
+
+        // Speichern
+        TrainingPlanEntity saved = repository.save(entity);
+
+        // Und jetzt das DTO aus dem gespeicherten Entity zurückgeben
+        return new TrainingPlanDTO(
+                saved.getId().intValue(),
+                saved.getName(),
+                saved.getDauer(),
+                saved.getIntensitaet(),
+                saved.getTrainingsziel()
+        );
     }
+
     public boolean delete(Long id) {
         if (repository.existsById(id)) {
             repository.deleteById(id);
@@ -49,14 +60,14 @@ public class TrainingPlanService {
                     entity.setName(dto.name());
                     entity.setDauer(dto.dauer());
                     entity.setIntensitaet(dto.intensitaet());
-                    entity.setZielmuskeln(dto.zielmuskeln());
+                    entity.setTrainingsziel(dto.trainingsziel());
                     repository.save(entity);
                     return new TrainingPlanDTO(
                             entity.getId().intValue(),
                             entity.getName(),
                             entity.getDauer(),
                             entity.getIntensitaet(),
-                            entity.getZielmuskeln()
+                            entity.getTrainingsziel()
                     );
                 })
                 .orElse(null);
@@ -68,7 +79,7 @@ public class TrainingPlanService {
                         entity.getName(),
                         entity.getDauer(),
                         entity.getIntensitaet(),
-                        entity.getZielmuskeln()
+                        entity.getTrainingsziel()
                 ))
                 .orElse(null);
     }
