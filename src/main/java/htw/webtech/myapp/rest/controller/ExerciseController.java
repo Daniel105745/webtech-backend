@@ -21,6 +21,10 @@ public class ExerciseController {
         this.exerciseService = exerciseService;
     }
 
+    // ====================================================
+    // INTERN: Exercises im Workout
+    // ====================================================
+
     @GetMapping("/workout/{workoutId}")
     public List<ExerciseDTO> getByWorkout(@PathVariable Long workoutId) {
         return exerciseService.getExercisesByWorkout(workoutId);
@@ -42,4 +46,6 @@ public class ExerciseController {
         boolean deleted = exerciseService.deleteExercise(id);
         return deleted ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
+
+
 }

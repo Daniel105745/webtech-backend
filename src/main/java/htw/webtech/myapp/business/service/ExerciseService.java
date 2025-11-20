@@ -5,9 +5,12 @@ import htw.webtech.myapp.persistence.entity.WorkoutEntity;
 import htw.webtech.myapp.persistence.repository.ExerciseRepository;
 import htw.webtech.myapp.persistence.repository.WorkoutRepository;
 import htw.webtech.myapp.rest.model.ExerciseDTO;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -16,11 +19,19 @@ public class ExerciseService {
     private final ExerciseRepository exerciseRepository;
     private final WorkoutRepository workoutRepository;
 
-    public ExerciseService(ExerciseRepository exerciseRepository, WorkoutRepository workoutRepository) {
+    // ---------- External API ----------
+    private final RestTemplate restTemplate = new RestTemplate();
+    private static final String EXTERNAL_API_URL =
+            "https://exercisedb-api.vercel.app/api/v1/exercises";
+
+    public ExerciseService(ExerciseRepository exerciseRepository,
+                           WorkoutRepository workoutRepository) {
         this.exerciseRepository = exerciseRepository;
         this.workoutRepository = workoutRepository;
     }
 
+
+    // ---------- Interne CRUD-Funktionen ----------
     public List<ExerciseDTO> getExercisesByWorkout(Long workoutId) {
         return exerciseRepository.findByWorkoutId(workoutId)
                 .stream()
@@ -73,4 +84,6 @@ public class ExerciseService {
                 entity.getWorkout() != null ? entity.getWorkout().getId() : null
         );
     }
+
+
 }

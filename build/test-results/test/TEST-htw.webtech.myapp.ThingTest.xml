@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="htw.webtech.myapp.ThingTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-11-08T23:22:12.489Z" hostname="f323362e-7f69-4b0f-9b77-581de087fd35.fritz.box" time="0.003">
-  <properties/>
-  <testcase name="testToString()" classname="htw.webtech.myapp.ThingTest" time="0.003"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

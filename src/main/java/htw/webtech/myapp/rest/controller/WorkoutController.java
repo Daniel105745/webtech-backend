@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = {
+
         "http://localhost:5173",
         "https://webtech-frontend-fe2m.onrender.com"
 })

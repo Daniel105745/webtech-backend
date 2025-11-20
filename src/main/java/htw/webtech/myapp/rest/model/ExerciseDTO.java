@@ -8,3 +8,4 @@ public record ExerciseDTO(
         double gewicht,
         Long workoutId
 ) {}
+
