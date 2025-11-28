@@ -1,4 +1,4 @@
-package htw.webtech.myapp.rest.controller;
+package htw.webtech.myapp.rest;
 
 import htw.webtech.myapp.business.service.ExerciseService;
 import htw.webtech.myapp.rest.model.ExerciseDTO;
@@ -8,10 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = {
-        "http://localhost:5173",
-        "https://webtech-frontend-fe2m.onrender.com"
-})
 @RequestMapping("/exercises")
 public class ExerciseController {
 
