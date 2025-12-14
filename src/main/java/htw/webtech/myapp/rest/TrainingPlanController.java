@@ -3,6 +3,8 @@ package htw.webtech.myapp.rest;
 import htw.webtech.myapp.business.service.TrainingPlanService;
 import htw.webtech.myapp.rest.model.TrainingPlanDTO;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,15 +20,14 @@ public class TrainingPlanController {
     }
 
     @GetMapping("/plans")
-    public List<TrainingPlanDTO> getAllPlans() {
-        return trainingPlanService.getAllTrainingPlans();
+    public List<TrainingPlanDTO> getAllPlans(@AuthenticationPrincipal Jwt token) {
+        return trainingPlanService.getAllTrainingPlans(token.getSubject());
     }
 
     @PostMapping("/plans")
-    public TrainingPlanDTO create(@RequestBody TrainingPlanDTO dto) {
-        return trainingPlanService.create(dto);
+    public TrainingPlanDTO create(@RequestBody TrainingPlanDTO dto, @AuthenticationPrincipal Jwt token) {
+        return trainingPlanService.create(dto, token.getSubject());
     }
-
     @DeleteMapping("/plans/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         boolean deleted = trainingPlanService.delete(id);

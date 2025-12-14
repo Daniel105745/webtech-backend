@@ -10,6 +10,8 @@ public class TrainingPlanEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name = "user_id")
+    private String userId;
 
     private String name;
     private String dauer;
@@ -28,6 +30,8 @@ public class TrainingPlanEntity {
         this.intensitaet = intensitaet;
         this.trainingsziel = trainingsziel;
     }
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = userId; }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
