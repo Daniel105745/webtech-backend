@@ -1,4 +1,4 @@
-package htw.webtech.myapp.rest.controller;
+package htw.webtech.myapp.rest;
 
 import htw.webtech.myapp.business.service.WorkoutSessionService;
 import htw.webtech.myapp.persistence.entity.PerformedExerciseEntity;
