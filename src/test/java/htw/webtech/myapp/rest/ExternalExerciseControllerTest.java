@@ -1,6 +1,7 @@
 package htw.webtech.myapp.rest;
 
 import htw.webtech.myapp.business.service.ExternalExerciseApiService;
+import htw.webtech.myapp.rest.controller.ExternalExerciseController;
 import htw.webtech.myapp.rest.model.ExternalExerciseDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

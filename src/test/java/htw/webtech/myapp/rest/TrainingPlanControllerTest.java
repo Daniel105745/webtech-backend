@@ -1,7 +1,7 @@
 package htw.webtech.myapp.rest;
 
 import htw.webtech.myapp.business.service.TrainingPlanService;
-import htw.webtech.myapp.rest.TrainingPlanController;
+import htw.webtech.myapp.rest.controller.TrainingPlanController;
 import htw.webtech.myapp.rest.model.TrainingPlanDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

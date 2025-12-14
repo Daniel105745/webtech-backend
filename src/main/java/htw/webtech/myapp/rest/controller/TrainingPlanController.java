@@ -25,10 +25,12 @@ public class TrainingPlanController {
     public List<TrainingPlanDTO> getAllPlans() {
         return trainingPlanService.getAllTrainingPlans();
     }
+
     @PostMapping("/plans")
     public TrainingPlanDTO create(@RequestBody TrainingPlanDTO dto) {
         return trainingPlanService.create(dto);
     }
+
     @DeleteMapping("/plans/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         boolean deleted = trainingPlanService.delete(id);
@@ -47,8 +49,5 @@ public class TrainingPlanController {
                 ? ResponseEntity.ok(plan)
                 : ResponseEntity.notFound().build();
     }
-
-
-
 
 }

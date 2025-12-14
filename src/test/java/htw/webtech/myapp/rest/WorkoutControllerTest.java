@@ -1,6 +1,7 @@
 package htw.webtech.myapp.rest;
 
 import htw.webtech.myapp.business.service.WorkoutService;
+import htw.webtech.myapp.rest.controller.WorkoutController;
 import htw.webtech.myapp.rest.model.WorkoutDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
