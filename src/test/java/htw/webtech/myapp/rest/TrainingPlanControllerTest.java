@@ -1,173 +1,185 @@
 package htw.webtech.myapp.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import htw.webtech.myapp.business.service.TrainingPlanService;
-import htw.webtech.myapp.rest.controller.TrainingPlanController;
 import htw.webtech.myapp.rest.model.TrainingPlanDTO;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.List;
 
-import static org.mockito.Mockito.when;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@ExtendWith(MockitoExtension.class)
+@WebMvcTest(TrainingPlanController.class)
 class TrainingPlanControllerTest {
 
+    @Autowired
     private MockMvc mockMvc;
 
-    @Mock
+    @MockitoBean
     private TrainingPlanService trainingPlanService;
 
-    @BeforeEach
-    void setup() {
-        TrainingPlanController controller = new TrainingPlanController(trainingPlanService);
-        mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
-    }
+    @Autowired
+    private ObjectMapper objectMapper;
 
-    // -------------------------------------------------------
-    // 1. GET ALL
-    // -------------------------------------------------------
+    // ---------- GET /plans ----------
     @Test
-    void testGetAllPlans() throws Exception {
-        List<TrainingPlanDTO> mockList = List.of(
-                new TrainingPlanDTO(1, "Plan A", "30 min", "Mittel", "Beine"),
-                new TrainingPlanDTO(2, "Plan B", "45 min", "Hoch", "Rücken")
+    void getAllPlans_shouldReturnList() throws Exception {
+        TrainingPlanDTO dto = new TrainingPlanDTO(
+                1,
+                "Push Day",
+                "60",
+                "hoch",
+                "Muskelaufbau"
         );
 
-        when(trainingPlanService.getAllTrainingPlans()).thenReturn(mockList);
+        Mockito.when(trainingPlanService.getAllTrainingPlans("user123"))
+                .thenReturn(List.of(dto));
 
-        mockMvc.perform(get("/plans"))
+        mockMvc.perform(get("/plans")
+                        .with(jwt().jwt(jwt -> jwt.subject("user123"))))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value("Plan A"))
-                .andExpect(jsonPath("$[1].dauer").value("45 min"));
+                .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[0].name").value("Push Day"));
     }
 
-    // -------------------------------------------------------
-    // 2. GET BY ID (FOUND)
-    // -------------------------------------------------------
+    // ---------- POST /plans ----------
     @Test
-    void testGetPlanById_Found() throws Exception {
-        TrainingPlanDTO dto = new TrainingPlanDTO(1, "Test", "30", "Hoch", "Brust");
+    void createPlan_shouldReturnCreatedPlan() throws Exception {
+        TrainingPlanDTO input = new TrainingPlanDTO(
+                0,
+                "Leg Day",
+                "45",
+                "mittel",
+                "Beine"
+        );
 
-        when(trainingPlanService.getById(1L)).thenReturn(dto);
+        TrainingPlanDTO saved = new TrainingPlanDTO(
+                1,
+                "Leg Day",
+                "45",
+                "mittel",
+                "Beine"
+        );
 
-        mockMvc.perform(get("/plans/1"))
+        Mockito.when(trainingPlanService.create(Mockito.any(), Mockito.eq("user123")))
+                .thenReturn(saved);
+
+        mockMvc.perform(post("/plans")
+                        .with(jwt().jwt(jwt -> jwt.subject("user123")))
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(input)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Test"));
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.name").value("Leg Day"));
     }
 
-    // -------------------------------------------------------
-    // 3. GET BY ID (NOT FOUND)
-    // -------------------------------------------------------
+    // ---------- GET /plans/{id} ----------
     @Test
-    void testGetPlanById_NotFound() throws Exception {
-        when(trainingPlanService.getById(99L)).thenReturn(null);
+    void getPlanById_shouldReturnPlan() throws Exception {
+        TrainingPlanDTO dto = new TrainingPlanDTO(
+                1,
+                "Pull Day",
+                "50",
+                "hoch",
+                "Ruecken"
+        );
 
-        mockMvc.perform(get("/plans/99"))
+        Mockito.when(trainingPlanService.getById(1L))
+                .thenReturn(dto);
+
+        mockMvc.perform(get("/plans/1")
+                        .with(jwt().jwt(jwt -> jwt.subject("user123"))))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name").value("Pull Day"));
+    }
+
+    @Test
+    void getPlanById_shouldReturn404_whenNotFound() throws Exception {
+        Mockito.when(trainingPlanService.getById(99L))
+                .thenReturn(null);
+
+        mockMvc.perform(get("/plans/99")
+                        .with(jwt().jwt(jwt -> jwt.subject("user123"))))
                 .andExpect(status().isNotFound());
     }
 
-    // -------------------------------------------------------
-    // 4. CREATE
-    // -------------------------------------------------------
+    // ---------- PUT /plans/{id} ----------
     @Test
-    void testCreatePlan() throws Exception {
-        TrainingPlanDTO dto =
-                new TrainingPlanDTO(0, "New", "20", "Low", "Arme");
+    void updatePlan_shouldReturnUpdatedPlan() throws Exception {
+        TrainingPlanDTO input = new TrainingPlanDTO(
+                0,
+                "Updated Plan",
+                "70",
+                "niedrig",
+                "Ausdauer"
+        );
 
-        when(trainingPlanService.create(Mockito.any())).thenReturn(dto);
+        TrainingPlanDTO updated = new TrainingPlanDTO(
+                1,
+                "Updated Plan",
+                "70",
+                "niedrig",
+                "Ausdauer"
+        );
 
-        mockMvc.perform(post("/plans")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                  "id":0,
-                                  "name":"New",
-                                  "dauer":"20",
-                                  "intensitaet":"Low",
-                                  "zielmuskeln":"Arme"
-                                }
-                                """))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("New"));
-    }
-
-    // -------------------------------------------------------
-    // 5. UPDATE (FOUND)
-    // -------------------------------------------------------
-    @Test
-    void testUpdatePlan_Found() throws Exception {
-        TrainingPlanDTO updated =
-                new TrainingPlanDTO(1, "Updated", "25", "Mittel", "Beine");
-
-        when(trainingPlanService.update(Mockito.eq(1L), Mockito.any()))
+        Mockito.when(trainingPlanService.update(Mockito.eq(1L), Mockito.any()))
                 .thenReturn(updated);
 
         mockMvc.perform(put("/plans/1")
+                        .with(jwt().jwt(jwt -> jwt.subject("user123")))
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                  "id":1,
-                                  "name":"Updated",
-                                  "dauer":"25",
-                                  "intensitaet":"Mittel",
-                                  "zielmuskeln":"Beine"
-                                }
-                                """))
+                        .content(objectMapper.writeValueAsString(input)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.name").value("Updated"));
+                .andExpect(jsonPath("$.name").value("Updated Plan"))
+                .andExpect(jsonPath("$.dauer").value("70"));
     }
 
-    // -------------------------------------------------------
-    // 6. UPDATE (NOT FOUND)
-    // -------------------------------------------------------
     @Test
-    void testUpdatePlan_NotFound() throws Exception {
-        when(trainingPlanService.update(Mockito.eq(99L), Mockito.any()))
+    void updatePlan_shouldReturn404_whenNotFound() throws Exception {
+        Mockito.when(trainingPlanService.update(Mockito.eq(99L), Mockito.any()))
                 .thenReturn(null);
 
         mockMvc.perform(put("/plans/99")
+                        .with(jwt().jwt(jwt -> jwt.subject("user123")))
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                  "id":99,
-                                  "name":"X",
-                                  "dauer":"0",
-                                  "intensitaet":"Low",
-                                  "zielmuskeln":"None"
-                                }
-                                """))
+                        .content(objectMapper.writeValueAsString(
+                                new TrainingPlanDTO(0, "", "", "", "")
+                        )))
                 .andExpect(status().isNotFound());
     }
 
-    // -------------------------------------------------------
-    // 7. DELETE (FOUND)
-    // -------------------------------------------------------
+    // ---------- DELETE /plans/{id} ----------
     @Test
-    void testDeletePlan_Found() throws Exception {
-        when(trainingPlanService.delete(1L)).thenReturn(true);
+    void deletePlan_shouldReturn204() throws Exception {
+        Mockito.when(trainingPlanService.delete(1L))
+                .thenReturn(true);
 
-        mockMvc.perform(delete("/plans/1"))
+        mockMvc.perform(delete("/plans/1")
+                        .with(jwt().jwt(jwt -> jwt.subject("user123")))
+                        .with(csrf()))
                 .andExpect(status().isNoContent());
     }
 
-    // -------------------------------------------------------
-    // 8. DELETE (NOT FOUND)
-    // -------------------------------------------------------
     @Test
-    void testDeletePlan_NotFound() throws Exception {
-        when(trainingPlanService.delete(99L)).thenReturn(false);
+    void deletePlan_shouldReturn404() throws Exception {
+        Mockito.when(trainingPlanService.delete(99L))
+                .thenReturn(false);
 
-        mockMvc.perform(delete("/plans/99"))
+        mockMvc.perform(delete("/plans/99")
+                        .with(jwt().jwt(jwt -> jwt.subject("user123")))
+                        .with(csrf()))
                 .andExpect(status().isNotFound());
     }
 }

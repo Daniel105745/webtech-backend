@@ -37,16 +37,16 @@ class ExerciseServiceTest {
     void setup() throws Exception {
         exerciseService = new ExerciseService(exerciseRepository, workoutRepository);
 
-        // Tạo Workout mẫu
+        // Erstelle Workout
         workout = new WorkoutEntity();
-        setId(workout, 1L); // dùng reflection để set id
+        setId(workout, 1L); // nutzt reflection set id
 
         // Tạo Exercise mẫu
         exercise1 = new ExerciseEntity("Pushups", 3, 15, 0.0, workout);
-        setId(exercise1, 1L); // dùng reflection để set id
+        setId(exercise1, 1L); // nutzt reflection  set id
     }
 
-    // Dùng reflection để set private id field
+    // nutzt reflection set private id field
     private void setId(Object entity, Long id) throws Exception {
         Field idField = entity.getClass().getDeclaredField("id");
         idField.setAccessible(true);

@@ -24,7 +24,7 @@ class ExternalExerciseApiServiceTest {
     void setup() {
         MockitoAnnotations.openMocks(this);
 
-        // Gán RestTemplate đã mock vào biến private "rest" bằng Reflection
+        // Fügt gemockte RestTemplate  in private "rest" mit Reflection
         try {
             var field = ExternalExerciseApiService.class.getDeclaredField("rest");
             field.setAccessible(true);
@@ -33,7 +33,7 @@ class ExternalExerciseApiServiceTest {
             throw new RuntimeException(e);
         }
 
-        // Gán API KEY
+        // Fügt API KEY
         try {
             var field = ExternalExerciseApiService.class.getDeclaredField("apiKey");
             field.setAccessible(true);

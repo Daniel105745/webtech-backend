@@ -2,14 +2,16 @@ package htw.webtech.myapp.business.service;
 
 import htw.webtech.myapp.persistence.entity.TrainingPlanEntity;
 import htw.webtech.myapp.persistence.entity.WorkoutEntity;
+import htw.webtech.myapp.persistence.entity.WorkoutSessionEntity;
 import htw.webtech.myapp.persistence.repository.TrainingPlanRepository;
 import htw.webtech.myapp.persistence.repository.WorkoutRepository;
+import htw.webtech.myapp.persistence.repository.WorkoutSessionRepository;
 import htw.webtech.myapp.rest.model.WorkoutDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.lang.reflect.Field;
@@ -28,160 +30,187 @@ class WorkoutServiceTest {
     @Mock
     private TrainingPlanRepository trainingPlanRepository;
 
-    private WorkoutService workoutService;
+    @Mock
+    private WorkoutSessionRepository workoutSessionRepository;
 
-    private WorkoutEntity workout1;
-    private TrainingPlanEntity plan;
+    @InjectMocks
+    private WorkoutService service;
+
+    TrainingPlanEntity plan;
+    WorkoutEntity workout;
 
     @BeforeEach
-    void setup() throws Exception {
-        workoutService = new WorkoutService(workoutRepository, trainingPlanRepository);
+    void setup() {
+        plan = new TrainingPlanEntity("Plan A", "30 min", "High", "Beine");
+        setPrivateId(plan, "id", 1L);
 
-        // Tạo TrainingPlan mẫu
-        plan = new TrainingPlanEntity("Plan A", "4 weeks", "Medium", "Chest");
-        setId(plan, 1L);
-
-        // Tạo Workout mẫu
-        workout1 = new WorkoutEntity("Workout 1", "Chest", "Monday", plan);
-        setId(workout1, 1L);
+        workout = new WorkoutEntity("Workout A", "Beine", "Mon", plan);
+        setPrivateId(workout, "id", 10L);
     }
 
-    // Reflection để set id private
-    private void setId(Object entity, Long id) throws Exception {
-        Field field = entity.getClass().getDeclaredField("id");
-        field.setAccessible(true);
-        field.set(entity, id);
-    }
-
-    // =======================================================
-    // 1. GET all workouts by training plan
-    // =======================================================
+    // --------------------------------------------------------------
+    // TEST 1: getAllByTrainingPlan()
+    // --------------------------------------------------------------
     @Test
     void testGetAllByTrainingPlan() {
-        when(workoutRepository.findByTrainingPlanId(1L)).thenReturn(List.of(workout1));
+        when(workoutRepository.findByTrainingPlanId(1L)).thenReturn(List.of(workout));
 
-        List<WorkoutDTO> result = workoutService.getAllByTrainingPlan(1L);
+        List<WorkoutDTO> result = service.getAllByTrainingPlan(1L);
 
         assertEquals(1, result.size());
-        assertEquals("Workout 1", result.get(0).name());
-        verify(workoutRepository, times(1)).findByTrainingPlanId(1L);
+        assertEquals("Workout A", result.get(0).name());
+        assertEquals("Beine", result.get(0).muskelgruppe());
     }
 
-    // =======================================================
-    // 2. GET workout by id FOUND
-    // =======================================================
+    // --------------------------------------------------------------
+    // TEST 2: getWorkoutById() SUCCESS
+    // --------------------------------------------------------------
     @Test
-    void testGetWorkoutByIdFound() {
-        when(workoutRepository.findById(1L)).thenReturn(Optional.of(workout1));
+    void testGetWorkoutByIdSuccess() {
+        when(workoutRepository.findById(10L)).thenReturn(Optional.of(workout));
 
-        WorkoutDTO dto = workoutService.getWorkoutById(1L);
+        WorkoutDTO result = service.getWorkoutById(10L);
 
-        assertNotNull(dto);
-        assertEquals("Workout 1", dto.name());
+        assertNotNull(result);
+        assertEquals("Workout A", result.name());
     }
 
-    // =======================================================
-    // 3. GET workout by id NOT FOUND
-    // =======================================================
+    // --------------------------------------------------------------
+    // TEST 3: getWorkoutById() FAIL
+    // --------------------------------------------------------------
     @Test
     void testGetWorkoutByIdNotFound() {
         when(workoutRepository.findById(99L)).thenReturn(Optional.empty());
 
-        WorkoutDTO dto = workoutService.getWorkoutById(99L);
+        WorkoutDTO result = service.getWorkoutById(99L);
 
-        assertNull(dto);
+        assertNull(result);
     }
 
-    // =======================================================
-    // 4. CREATE workout
-    // =======================================================
+    // --------------------------------------------------------------
+    // TEST 4: createWorkout() SUCCESS
+    // --------------------------------------------------------------
     @Test
-    void testCreateWorkout() throws Exception {
-        WorkoutDTO dto = new WorkoutDTO(null, "Workout 2", "Tuesday", "Back", 1L);
+    void testCreateWorkoutSuccess() {
+        WorkoutDTO dto = new WorkoutDTO(null, "New Workout", "Tue", "Arme", 1L);
 
         when(trainingPlanRepository.findById(1L)).thenReturn(Optional.of(plan));
-        when(workoutRepository.save(Mockito.any())).thenAnswer(invocation -> {
-            WorkoutEntity entity = invocation.getArgument(0);
-            setId(entity, 2L);
-            return entity;
+        when(workoutRepository.save(any())).thenAnswer(invocation -> {
+            WorkoutEntity e = invocation.getArgument(0);
+            setPrivateId(e, "id", 20L);
+            return e;
         });
 
-        WorkoutDTO created = workoutService.createWorkout(1L, dto);
+        WorkoutDTO result = service.createWorkout(1L, dto);
 
-        assertNotNull(created);
-        assertEquals("Workout 2", created.name());
-        assertEquals(1L, created.trainingPlanId());
-        verify(workoutRepository, times(1)).save(Mockito.any());
+        assertNotNull(result);
+        assertEquals("New Workout", result.name());
+        assertEquals("Arme", result.muskelgruppe());
+        verify(workoutRepository, times(1)).save(any());
     }
 
-    // =======================================================
-    // 5. CREATE workout PLAN NOT FOUND
-    // =======================================================
+    // --------------------------------------------------------------
+    // TEST 5: createWorkout() FAIL (plan not found)
+    // --------------------------------------------------------------
     @Test
     void testCreateWorkoutPlanNotFound() {
-        WorkoutDTO dto = new WorkoutDTO(null, "Workout 2", "Tuesday", "Back", 99L);
-
         when(trainingPlanRepository.findById(99L)).thenReturn(Optional.empty());
 
-        assertThrows(RuntimeException.class, () -> workoutService.createWorkout(99L, dto));
+        WorkoutDTO dto = new WorkoutDTO(null, "X", "Y", "Z", 99L);
+
+        assertThrows(RuntimeException.class, () -> service.createWorkout(99L, dto));
     }
 
-    // =======================================================
-    // 6. UPDATE workout FOUND
-    // =======================================================
+    // --------------------------------------------------------------
+    // TEST 6: updateWorkout() SUCCESS
+    // --------------------------------------------------------------
     @Test
-    void testUpdateWorkoutFound() {
-        WorkoutDTO dto = new WorkoutDTO(1L, "Workout 1 Modified", "Monday", "Chest", 1L);
+    void testUpdateWorkoutSuccess() {
+        WorkoutDTO dto = new WorkoutDTO(10L, "Updated", "Wed", "Rücken", 1L);
 
-        when(workoutRepository.findById(1L)).thenReturn(Optional.of(workout1));
-        when(workoutRepository.save(Mockito.any())).thenAnswer(invocation -> invocation.getArgument(0));
+        when(workoutRepository.findById(10L)).thenReturn(Optional.of(workout));
+        when(workoutRepository.save(any())).thenReturn(workout);
 
-        WorkoutDTO updated = workoutService.updateWorkout(1L, dto);
+        WorkoutDTO result = service.updateWorkout(10L, dto);
 
-        assertNotNull(updated);
-        assertEquals("Workout 1 Modified", updated.name());
-        verify(workoutRepository, times(1)).save(Mockito.any());
+        assertNotNull(result);
+        assertEquals("Updated", result.name());
+        assertEquals("Rücken", result.muskelgruppe());
     }
 
-    // =======================================================
-    // 7. UPDATE workout NOT FOUND
-    // =======================================================
+    // --------------------------------------------------------------
+    // TEST 7: updateWorkout() FAIL
+    // --------------------------------------------------------------
     @Test
     void testUpdateWorkoutNotFound() {
-        WorkoutDTO dto = new WorkoutDTO(99L, "X", "Friday", "Legs", 1L);
-
         when(workoutRepository.findById(99L)).thenReturn(Optional.empty());
 
-        WorkoutDTO updated = workoutService.updateWorkout(99L, dto);
+        WorkoutDTO dto = new WorkoutDTO(99L, "X", "Y", "Z", 1L);
 
-        assertNull(updated);
-        verify(workoutRepository, never()).save(Mockito.any());
+        WorkoutDTO result = service.updateWorkout(99L, dto);
+
+        assertNull(result);
     }
 
-    // =======================================================
-    // 8. DELETE workout SUCCESS
-    // =======================================================
+    // --------------------------------------------------------------
+    // TEST 8: deleteWorkout() SUCCESS (no sessions linked)
+    // --------------------------------------------------------------
     @Test
-    void testDeleteWorkoutSuccess() {
-        when(workoutRepository.existsById(1L)).thenReturn(true);
-        doNothing().when(workoutRepository).deleteById(1L);
+    void testDeleteWorkoutSuccessNoSessions() {
+        when(workoutRepository.existsById(10L)).thenReturn(true);
+        when(workoutSessionRepository.findAll()).thenReturn(List.of());
 
-        boolean deleted = workoutService.deleteWorkout(1L);
+        boolean deleted = service.deleteWorkout(10L);
 
         assertTrue(deleted);
-        verify(workoutRepository, times(1)).deleteById(1L);
+        verify(workoutRepository, times(1)).deleteById(10L);
+        verify(workoutSessionRepository, never()).save(any());
     }
 
-    // =======================================================
-    // 9. DELETE workout NOT FOUND
-    // =======================================================
+    // --------------------------------------------------------------
+    // TEST 9: deleteWorkout() SUCCESS (sessions linked)
+    // --------------------------------------------------------------
+    @Test
+    void testDeleteWorkoutSuccessWithSessions() {
+        WorkoutSessionEntity session = new WorkoutSessionEntity();
+        setPrivateId(session, "id", 100L);
+        session.setWorkout(workout);
+
+        when(workoutRepository.existsById(10L)).thenReturn(true);
+        when(workoutSessionRepository.findAll()).thenReturn(List.of(session));
+
+        boolean deleted = service.deleteWorkout(10L);
+
+        assertTrue(deleted);
+        assertNull(session.getWorkout());
+        verify(workoutSessionRepository, times(1)).save(session);
+        verify(workoutRepository, times(1)).deleteById(10L);
+    }
+
+    // --------------------------------------------------------------
+    // TEST 10: deleteWorkout() FAIL (not exist)
+    // --------------------------------------------------------------
     @Test
     void testDeleteWorkoutNotFound() {
         when(workoutRepository.existsById(99L)).thenReturn(false);
 
-        boolean deleted = workoutService.deleteWorkout(99L);
+        boolean deleted = service.deleteWorkout(99L);
 
         assertFalse(deleted);
         verify(workoutRepository, never()).deleteById(any());
+        verify(workoutSessionRepository, never()).findAll();
+    }
+
+    // --------------------------------------------------------------
+    // Helper: set private id durch reflection
+    // --------------------------------------------------------------
+    private static void setPrivateId(Object target, String fieldName, Long value) {
+        try {
+            Field f = target.getClass().getDeclaredField(fieldName);
+            f.setAccessible(true);
+            f.set(target, value);
+        } catch (Exception e) {
+            fail("Cannot set private field '" + fieldName + "' on " + target.getClass().getSimpleName());
+        }
     }
 }
